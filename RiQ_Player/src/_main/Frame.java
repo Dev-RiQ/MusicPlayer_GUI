@@ -3,6 +3,8 @@ package _main;
 import javax.swing.JFrame;
 
 import button.Button;
+import lengthLine.MusicLengthLine;
+import music.Sound;
 import music.SoundInfo;
 
 @SuppressWarnings("serial")
@@ -23,7 +25,9 @@ public class Frame extends JFrame{
 		Panel panel = Panel.getInstance();
 		add(panel);
 		SoundInfo.getInstance().setMusicInfo(panel);
+		MusicLengthLine.getInstance().addLine(panel);
 		Button.getInstance().addButton(panel);
+		Sound.getInstance().setSoundList();
 		pack();
 
 		setLocationRelativeTo(null);

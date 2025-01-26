@@ -12,12 +12,24 @@ public class SoundController {
 
 	private Clip clip;//오디오 파일
 	private static int count;
-	private boolean isPause,isPlay,isStop;
+	private boolean isPause,isPlay,isStop,isNew;
 	private Sound sound;
 	private static final int AUDIO_SPEED = 44100;
 	
 	public boolean isPlay() {
 		return isPlay;
+	}
+
+	public boolean isPause() {
+		return isPause;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean isNew) {
+		this.isNew = isNew;
 	}
 
 	public static int getCount() {
@@ -43,7 +55,7 @@ public class SoundController {
 		count = 0;
 	}
 	
-	/** next music play */
+	/** play next music */
 	public void setFile() {
 		try {
 			AudioInputStream ais = AudioSystem.getAudioInputStream(sound.getSoundURL().get(count++));
@@ -54,12 +66,42 @@ public class SoundController {
 		}
 	}
 	
+	/** play select music in list */
+	public void setFile(int idx) {
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(sound.getSoundURL().get(idx));
+			clip = AudioSystem.getClip();
+			clip.open(ais);
+			count = idx+1;
+		} catch (Exception e) {
+			
+		}
+	}
+	
+	/** play select music */
+	public void play(int idx) {
+		clip.stop();
+		Panel.getInstance().resetCurTime();
+		setFile(idx);
+		VolumeHandler.getInstance().volumeSetting();
+		isStop = false;
+		if(!isPause)
+			isNew = true;
+		isPause = false;
+		clip.start();
+		isPlay = true;
+		SoundInfo.getInstance().setMusicInfo(Panel.getInstance());
+	}
+	
 	/** play music */
 	public void play() {
 		if(isPlay) return;
+		clip.stop();
 		if(!isPause) setFile();
 		VolumeHandler.getInstance().volumeSetting();
 		isStop = false;
+		if(!isPause)
+			isNew = true;
 		isPause = false;
 		clip.start();
 		isPlay = true;
@@ -80,6 +122,7 @@ public class SoundController {
 			isStop = true;
 			Panel.getInstance().resetCurTime();
 		}
+		SoundInfo.getInstance().setMusicLength(Panel.getInstance(), 0);
 	}
 	
 	/** pause music */
@@ -119,6 +162,7 @@ public class SoundController {
 		clip.stop();
 		count = 0;
 		Collections.shuffle(sound.getSoundURL());
+		sound.setSoundList();
 		isPlay = false;
 		isPause = false;
 		Panel.getInstance().resetCurTime();

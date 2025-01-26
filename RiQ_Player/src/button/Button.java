@@ -1,6 +1,8 @@
 package button;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,6 +30,7 @@ public class Button extends JButton {
 		volumeH = VolumeHandler.getInstance();
 		setNewButton();
 		setButtonSize();
+		setButtonStyle();
 		action();
 	}
 	
@@ -38,10 +41,10 @@ public class Button extends JButton {
 		pause = new JButton("| |");
 		before = new JButton("<<");
 		next = new JButton(">>");
-		suffle = new JButton("⇄");
+		suffle = new JButton("Mix");
 		volumeMin = new JButton("Min");
-		volumeDown = new JButton("-");
-		volumeUp = new JButton("+");
+		volumeDown = new JButton("Vol-");
+		volumeUp = new JButton("Vol+");
 		volumeMax = new JButton("Max");
 	}
 	
@@ -57,6 +60,30 @@ public class Button extends JButton {
 		volumeUp.setPreferredSize(new Dimension(80, 40));
 		volumeMin.setPreferredSize(new Dimension(80, 40));
 		volumeMax.setPreferredSize(new Dimension(80, 40));
+	}
+	
+	/** apply button style */
+	private void setButtonStyle() {
+		setStyle(play);
+		setStyle(stop);
+		setStyle(pause);
+		setStyle(before);
+		setStyle(next);
+		setStyle(suffle);
+		setStyle(volumeDown);
+		setStyle(volumeUp);
+		setStyle(volumeMin);
+		setStyle(volumeMax);
+	}
+	
+	/** button style setting */
+	private void setStyle(JButton button) {
+		button.setForeground(Color.WHITE);
+		button.setBackground(Color.BLACK);
+		button.setBorderPainted(false);
+		button.setFont(new Font("맑은 고딕",Font.BOLD,20));
+		button.setContentAreaFilled(false);
+		button.setFocusPainted(false);
 	}
 	
 	/** add button to panel */

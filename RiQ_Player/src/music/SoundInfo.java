@@ -52,7 +52,7 @@ public class SoundInfo {
 		String[] fileInfo = getDivideName(fileName);
 		setMusicTitle(panel, fileInfo[0]);
 		setMusicArtist(panel, fileInfo[1]);
-		setMusicLength(panel, 0);
+		setMusicLength(panel, Panel.getInstance().getCurTime());
 	}
 
 	/** Divide Title and Artist from fileName */
@@ -73,24 +73,24 @@ public class SoundInfo {
 	private void setMusicTitle(Panel panel, String fileTitle) {
 		if (title == null) {
 			title = new JLabel(fileTitle);
+			title.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+			title.setForeground(Color.WHITE);
+			setLabelStyle(title);
 			panel.add(title);
 		}else
 			title.setText(fileTitle);
-		title.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		title.setForeground(Color.WHITE);
-		setLabelStyle(title);
 	}
 
 	/** setting music artist text */
 	private void setMusicArtist(Panel panel, String fileArtist) {
 		if (artist == null) {
 			artist = new JLabel(fileArtist);
+			artist.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+			artist.setForeground(Color.LIGHT_GRAY);
+			setLabelStyle(artist);
 			panel.add(artist);
 		} else
 			artist.setText(fileArtist);
-		artist.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-		artist.setForeground(Color.LIGHT_GRAY);
-		setLabelStyle(artist);
 	}
 	
 	/** setting music artist text */
@@ -98,12 +98,12 @@ public class SoundInfo {
 		String text = String.format("%d:%02d / %d:%02d", curTime/60,curTime%60,playTime/60,playTime%60);
 		if (time == null) {
 			time = new JLabel(text);
+			time.setFont(new Font("맑은 고딕",Font.PLAIN, 13));
+			time.setForeground(Color.WHITE);
+			setLabelStyle(time);
 			panel.add(time);
 		} else
 			time.setText(text);
-		time.setFont(new Font("맑은 고딕",Font.PLAIN, 13));
-		time.setForeground(Color.WHITE);
-		setLabelStyle(time);
 	}
 
 	/** setting JLabel to print text(Title, Artist) */
