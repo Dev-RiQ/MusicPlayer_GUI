@@ -52,7 +52,7 @@ public class SoundInfo {
 		String[] fileInfo = getDivideName(fileName);
 		setMusicTitle(panel, fileInfo[0]);
 		setMusicArtist(panel, fileInfo[1]);
-		setMusicLength(panel, Panel.getInstance().getCurTime());
+		setMusicLength(panel, (int) Panel.getInstance().getCurTime());
 	}
 
 	/** Divide Title and Artist from fileName */

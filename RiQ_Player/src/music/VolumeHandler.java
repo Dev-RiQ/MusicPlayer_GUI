@@ -30,16 +30,6 @@ public class VolumeHandler{
 		setGain((float) setting.getValue());
 	}
 
-	/** volume to 0 % */
-	public void volumeMin() {
-		setGain((float) -80.0);
-	}
-
-	/** volume to 100 % */
-	public void volumeMax() {
-		setGain((float) 0.0);
-	}
-
 	/** volume down */
 	public void volumeDown() {
 		float dB = (float) (setting.getValue() - 1.0);

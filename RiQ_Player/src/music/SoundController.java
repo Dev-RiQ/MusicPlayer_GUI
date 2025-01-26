@@ -14,6 +14,7 @@ public class SoundController {
 	private static int count;
 	private boolean isPause,isPlay,isStop,isNew;
 	private Sound sound;
+	private Panel panel;
 	private static final int AUDIO_SPEED = 44100;
 	
 	public boolean isPlay() {
@@ -50,6 +51,7 @@ public class SoundController {
 		return instance;
 	}
 	private SoundController() {
+		panel = Panel.getInstance();
 		sound = Sound.getInstance();
 		setFile();
 		count = 0;
@@ -81,7 +83,7 @@ public class SoundController {
 	/** play select music */
 	public void play(int idx) {
 		clip.stop();
-		Panel.getInstance().resetCurTime();
+		panel.resetCurTime();
 		setFile(idx);
 		VolumeHandler.getInstance().volumeSetting();
 		isStop = false;
@@ -90,7 +92,7 @@ public class SoundController {
 		isPause = false;
 		clip.start();
 		isPlay = true;
-		SoundInfo.getInstance().setMusicInfo(Panel.getInstance());
+		SoundInfo.getInstance().setMusicInfo(panel);
 	}
 	
 	/** play music */
@@ -105,7 +107,7 @@ public class SoundController {
 		isPause = false;
 		clip.start();
 		isPlay = true;
-		SoundInfo.getInstance().setMusicInfo(Panel.getInstance());
+		SoundInfo.getInstance().setMusicInfo(panel);
 	}
 	
 	/** stop music */
@@ -115,14 +117,14 @@ public class SoundController {
 			count--;
 			isPlay = false;
 			isStop = true;
-			Panel.getInstance().resetCurTime();
+			panel.resetCurTime();
 		}
 		if(isPause) {
 			isPause = false;
 			isStop = true;
-			Panel.getInstance().resetCurTime();
+			panel.resetCurTime();
 		}
-		SoundInfo.getInstance().setMusicLength(Panel.getInstance(), 0);
+		SoundInfo.getInstance().setMusicLength(panel, 0);
 	}
 	
 	/** pause music */
@@ -142,7 +144,7 @@ public class SoundController {
 		if(isPause) isPause = false;
 		if(count < 0) count = sound.getListSIZE() - 1;
 		isPlay = false;
-		Panel.getInstance().resetCurTime();
+		panel.resetCurTime();
 		play();
 	}
 	
@@ -153,7 +155,7 @@ public class SoundController {
 		if(isPause) isPause = false;
 		if(count == sound.getListSIZE()) count = 0;
 		isPlay = false;
-		Panel.getInstance().resetCurTime();
+		panel.resetCurTime();
 		play();
 	}
 	
@@ -165,7 +167,31 @@ public class SoundController {
 		sound.setSoundList();
 		isPlay = false;
 		isPause = false;
-		Panel.getInstance().resetCurTime();
+		panel.resetCurTime();
 		play();
+	}
+	
+	/** time position -5sec by current time */
+	public void timeDecrease() {
+		if(!isPlay) return;
+		clip.stop();
+		if(panel.getCurTime() < 5)
+			panel.setCurTime(0);
+		else 
+			panel.setCurTime(panel.getCurTime() - 5);
+		clip.setMicrosecondPosition((int) panel.getCurTime() * 1000000);
+		clip.start();
+	}
+	
+	/** time position +5sec by current time */
+	public void timeIncrease() {
+		if(!isPlay) return;
+		clip.stop();
+		if(SoundInfo.getInstance().getPlayTime() - panel.getCurTime() < 5)
+			panel.setCurTime(SoundInfo.getInstance().getPlayTime());
+		else 
+			panel.setCurTime(panel.getCurTime() + 5);
+		clip.setMicrosecondPosition((int) panel.getCurTime() * 1000000);
+		clip.start();
 	}
 }

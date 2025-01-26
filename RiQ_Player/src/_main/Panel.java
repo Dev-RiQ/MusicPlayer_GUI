@@ -15,13 +15,17 @@ public class Panel extends JPanel implements Runnable {
 	private final int screenWidth = 460;
 	private final int screenHeight = 300;
 	private Thread thread;
-	private int curTime;
+	private double curTime;
 	
 	public void resetCurTime() {
 		curTime = 0;
 	}
 
-	public int getCurTime() {
+	public void setCurTime(double curTime) {
+		this.curTime = curTime;
+	}
+
+	public double getCurTime() {
 		return curTime;
 	}
 
@@ -64,13 +68,13 @@ public class Panel extends JPanel implements Runnable {
 				sec += (currentTime - lastTime) / timeInteval;
 			}
 			lastTime = currentTime;
-			if(((int)(curTime * 1.0 % (SoundInfo.getInstance().getPlayTime() *1.0 / 60))) == 0) {
-				MusicLengthLine.getInstance().playTimeLine((int)(curTime * 1.0 / (SoundInfo.getInstance().getPlayTime() * 1.0 / 60)));
+			if(((int)(curTime % (SoundInfo.getInstance().getPlayTime() *1.0 / 60))) == 0) {
+				MusicLengthLine.getInstance().playTimeLine((int)(curTime / (SoundInfo.getInstance().getPlayTime() * 1.0 / 60)));
 			}
 			if(sec >= 1) {
 				sec = 0;
 				if(SoundController.getInstance().isPlay())
-					SoundInfo.getInstance().setMusicLength(this,++curTime);
+					SoundInfo.getInstance().setMusicLength(this,(int)++curTime);
 				if(curTime >=SoundInfo.getInstance().getPlayTime()) { 
 					SoundController.getInstance().next();
 					curTime = 0;

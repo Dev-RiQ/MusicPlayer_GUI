@@ -15,7 +15,7 @@ import music.VolumeHandler;
 @SuppressWarnings("serial")
 public class Button extends JButton {
 
-	private JButton play, stop, pause, before, next, suffle, volumeDown, volumeUp, volumeMin, volumeMax;
+	private JButton play, stop, pause, before, next, suffle, volumeDown, volumeUp, timeDecrease, timeIncrease;
 	private SoundController soundController;
 	private VolumeHandler volumeH;
 	
@@ -42,10 +42,10 @@ public class Button extends JButton {
 		before = new JButton("<<");
 		next = new JButton(">>");
 		suffle = new JButton("Mix");
-		volumeMin = new JButton("Min");
+		timeDecrease = new JButton("-5s");
+		timeIncrease = new JButton("+5s");
 		volumeDown = new JButton("Vol-");
 		volumeUp = new JButton("Vol+");
-		volumeMax = new JButton("Max");
 	}
 	
 	/** setting button size */
@@ -58,8 +58,8 @@ public class Button extends JButton {
 		suffle.setPreferredSize(new Dimension(80, 40));
 		volumeDown.setPreferredSize(new Dimension(80, 40));
 		volumeUp.setPreferredSize(new Dimension(80, 40));
-		volumeMin.setPreferredSize(new Dimension(80, 40));
-		volumeMax.setPreferredSize(new Dimension(80, 40));
+		timeDecrease.setPreferredSize(new Dimension(80, 40));
+		timeIncrease.setPreferredSize(new Dimension(80, 40));
 	}
 	
 	/** apply button style */
@@ -72,8 +72,8 @@ public class Button extends JButton {
 		setStyle(suffle);
 		setStyle(volumeDown);
 		setStyle(volumeUp);
-		setStyle(volumeMin);
-		setStyle(volumeMax);
+		setStyle(timeDecrease);
+		setStyle(timeIncrease);
 	}
 	
 	/** button style setting */
@@ -94,10 +94,10 @@ public class Button extends JButton {
 		panel.add(stop);
 		panel.add(next);
 		panel.add(suffle);
-		panel.add(volumeMin);
+		panel.add(timeDecrease);
+		panel.add(timeIncrease);
 		panel.add(volumeDown);
 		panel.add(volumeUp);
-		panel.add(volumeMax);
 	}
 
 	/** button click event actions */
@@ -142,14 +142,14 @@ public class Button extends JButton {
 				volumeH.volumeUp();
 			}
 		});
-		volumeMin.addActionListener(new ActionListener() {
+		timeDecrease.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				volumeH.volumeMin();
+				soundController.timeDecrease();
 			}
 		});
-		volumeMax.addActionListener(new ActionListener() {
+		timeIncrease.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				volumeH.volumeMax();
+				soundController.timeIncrease();
 			}
 		});
 
