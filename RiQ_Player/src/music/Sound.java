@@ -1,6 +1,8 @@
 package music;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +30,22 @@ public class Sound {
 	private Sound() {
 		String[] list = getMusicList();
 		soundURL = new ArrayList<>();
-		for (int i = 0; i < list.length; i++)
-			soundURL.add(getClass().getResource("/music/" + list[i]));
+		for (int i = 0; i < list.length; i++) {
+			String filePath = System.getProperty("user.dir") + "\\res\\music\\" + list[i];
+			File dir = new File(filePath);
+			try {
+				soundURL.add(dir.toURL());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	private static Sound instance;
 	public static Sound getInstance() {
 		if(instance == null) instance = new Sound();
 		return instance;
 	}
-
+	
 	/** get music list in /res/music/*.wav */
 	private String[] getMusicList() {
 		String filePath = System.getProperty("user.dir") + "\\res\\music";
