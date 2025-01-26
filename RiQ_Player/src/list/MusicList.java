@@ -45,7 +45,6 @@ public class MusicList extends JList<Object> {
 	/** select list component action */
 	public void action() {
 		list.addListSelectionListener(new ListSelectionListener() {
-			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				SoundController.getInstance().play(list.getSelectedIndex());

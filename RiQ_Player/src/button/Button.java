@@ -29,7 +29,6 @@ public class Button extends JButton {
 		soundController = SoundController.getInstance();
 		volumeH = VolumeHandler.getInstance();
 		setNewButton();
-		setButtonSize();
 		setButtonStyle();
 		action();
 	}
@@ -48,20 +47,6 @@ public class Button extends JButton {
 		volumeUp = new JButton("Vol+");
 	}
 	
-	/** setting button size */
-	private void setButtonSize() {
-		play.setPreferredSize(new Dimension(80, 40));
-		stop.setPreferredSize(new Dimension(80, 40));
-		pause.setPreferredSize(new Dimension(80, 40));
-		before.setPreferredSize(new Dimension(80, 40));
-		next.setPreferredSize(new Dimension(80, 40));
-		suffle.setPreferredSize(new Dimension(80, 40));
-		volumeDown.setPreferredSize(new Dimension(80, 40));
-		volumeUp.setPreferredSize(new Dimension(80, 40));
-		timeDecrease.setPreferredSize(new Dimension(80, 40));
-		timeIncrease.setPreferredSize(new Dimension(80, 40));
-	}
-	
 	/** apply button style */
 	private void setButtonStyle() {
 		setStyle(play);
@@ -78,6 +63,7 @@ public class Button extends JButton {
 	
 	/** button style setting */
 	private void setStyle(JButton button) {
+		button.setPreferredSize(new Dimension(80, 40));
 		button.setForeground(Color.WHITE);
 		button.setBackground(Color.BLACK);
 		button.setBorderPainted(false);

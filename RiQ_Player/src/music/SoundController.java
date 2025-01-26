@@ -85,14 +85,7 @@ public class SoundController {
 		clip.stop();
 		panel.resetCurTime();
 		setFile(idx);
-		VolumeHandler.getInstance().volumeSetting();
-		isStop = false;
-		if(!isPause)
-			isNew = true;
-		isPause = false;
-		clip.start();
-		isPlay = true;
-		SoundInfo.getInstance().setMusicInfo(panel);
+		defaultPlaySet();
 	}
 	
 	/** play music */
@@ -100,40 +93,39 @@ public class SoundController {
 		if(isPlay) return;
 		clip.stop();
 		if(!isPause) setFile();
+		defaultPlaySet();
+	}
+
+	/** play music default setting */
+	private void defaultPlaySet() {
 		VolumeHandler.getInstance().volumeSetting();
-		isStop = false;
 		if(!isPause)
 			isNew = true;
+		isStop = false;
 		isPause = false;
-		clip.start();
 		isPlay = true;
+		clip.start();
 		SoundInfo.getInstance().setMusicInfo(panel);
 	}
 	
 	/** stop music */
 	public void stop() {
+		if(isStop) return;
 		clip.stop();
-		if(isPlay) {
-			count--;
-			isPlay = false;
-			isStop = true;
-			panel.resetCurTime();
-		}
-		if(isPause) {
-			isPause = false;
-			isStop = true;
-			panel.resetCurTime();
-		}
+		count--;
+		isPlay = false;
+		isPause = false;
+		isStop = true;
+		panel.resetCurTime();
 		SoundInfo.getInstance().setMusicLength(panel, 0);
 	}
 	
 	/** pause music */
 	public void pause() {
+		if(!isPlay) return;
 		clip.stop();
-		if(isPlay) {
-			isPause = true;
-			isPlay = false;
-		}
+		isPause = true;
+		isPlay = false;
 	}
 	
 	/** move to before music */
@@ -141,22 +133,16 @@ public class SoundController {
 		clip.stop();
 		if(isStop) count--;
 		else count-=2;
-		if(isPause) isPause = false;
 		if(count < 0) count = sound.getListSIZE() - 1;
-		isPlay = false;
-		panel.resetCurTime();
-		play();
+		setNewPlay();
 	}
 	
 	/** move to next music */
 	public void next() {
 		clip.stop();
 		if(isStop || !isPlay) count++;
-		if(isPause) isPause = false;
-		if(count == sound.getListSIZE()) count = 0;
-		isPlay = false;
-		panel.resetCurTime();
-		play();
+		if(count <= sound.getListSIZE()) count = 0;
+		setNewPlay();
 	}
 	
 	/** suffle music list */
@@ -165,8 +151,12 @@ public class SoundController {
 		count = 0;
 		Collections.shuffle(sound.getSoundURL());
 		sound.setSoundList();
+		setNewPlay();
+	}
+	
+	/** change music default setting */
+	private void setNewPlay() {
 		isPlay = false;
-		isPause = false;
 		panel.resetCurTime();
 		play();
 	}
@@ -179,8 +169,7 @@ public class SoundController {
 			panel.setCurTime(0);
 		else 
 			panel.setCurTime(panel.getCurTime() - 5);
-		clip.setMicrosecondPosition((int) panel.getCurTime() * 1000000);
-		clip.start();
+		setPosition();
 	}
 	
 	/** time position +5sec by current time */
@@ -191,6 +180,11 @@ public class SoundController {
 			panel.setCurTime(SoundInfo.getInstance().getPlayTime());
 		else 
 			panel.setCurTime(panel.getCurTime() + 5);
+		setPosition();
+	}
+	
+	/** play music in time position */
+	private void setPosition() {
 		clip.setMicrosecondPosition((int) panel.getCurTime() * 1000000);
 		clip.start();
 	}

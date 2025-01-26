@@ -50,8 +50,8 @@ public class SoundInfo {
 	/** setting Title and Artist info */
 	private void setInfo(Panel panel, String fileName) {
 		String[] fileInfo = getDivideName(fileName);
-		setMusicTitle(panel, fileInfo[0]);
-		setMusicArtist(panel, fileInfo[1]);
+		setMusicText(title, panel, fileInfo[0], 20);
+		setMusicText(artist, panel, fileInfo[1], 13);
 		setMusicLength(panel, (int) Panel.getInstance().getCurTime());
 	}
 
@@ -69,31 +69,19 @@ public class SoundInfo {
 		return fileInfo;
 	}
 
-	/** setting music title text */
-	private void setMusicTitle(Panel panel, String fileTitle) {
-		if (title == null) {
-			title = new JLabel(fileTitle);
-			title.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-			title.setForeground(Color.WHITE);
-			setLabelStyle(title);
-			panel.add(title);
-		}else
-			title.setText(fileTitle);
-	}
-
-	/** setting music artist text */
-	private void setMusicArtist(Panel panel, String fileArtist) {
-		if (artist == null) {
-			artist = new JLabel(fileArtist);
-			artist.setFont(new Font("맑은 고딕", Font.BOLD, 13));
-			artist.setForeground(Color.LIGHT_GRAY);
-			setLabelStyle(artist);
-			panel.add(artist);
+	/** setting music text */
+	private void setMusicText(JLabel label, Panel panel, String data, int size) {
+		if (label == null) {
+			label = new JLabel(data);
+			label.setFont(new Font("맑은 고딕", Font.BOLD, size));
+			label.setForeground(Color.LIGHT_GRAY);
+			setLabelStyle(label);
+			panel.add(label);
 		} else
-			artist.setText(fileArtist);
+			label.setText(data);
 	}
 	
-	/** setting music artist text */
+	/** setting music length text */
 	public void setMusicLength(Panel panel, int curTime) {
 		String text = String.format("%d:%02d / %d:%02d", curTime/60,curTime%60,playTime/60,playTime%60);
 		if (time == null) {
