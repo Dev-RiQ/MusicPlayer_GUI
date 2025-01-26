@@ -105,7 +105,6 @@ public class SoundController {
 		isPause = false;
 		isPlay = true;
 		clip.start();
-		SoundInfo.getInstance().setMusicInfo(panel);
 	}
 	
 	/** stop music */
@@ -141,7 +140,7 @@ public class SoundController {
 	public void next() {
 		clip.stop();
 		if(isStop || !isPlay) count++;
-		if(count <= sound.getListSIZE()) count = 0;
+		if(count >= sound.getListSIZE()) count = 0;
 		setNewPlay();
 	}
 	

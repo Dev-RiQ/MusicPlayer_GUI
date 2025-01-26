@@ -13,7 +13,7 @@ import music.SoundInfo;
 public class Panel extends JPanel implements Runnable {
 
 	private final int screenWidth = 460;
-	private final int screenHeight = 300;
+	private final int screenHeight = 275;
 	private Thread thread;
 	private double curTime;
 	
@@ -57,6 +57,8 @@ public class Panel extends JPanel implements Runnable {
 		while(thread != null) {
 			// refresh time in music play
 			if(SoundController.getInstance().isNew()) {
+				SoundInfo.getInstance().setMusicInfo(this);
+				SoundInfo.getInstance().setMusicLength(this,0);
 				sec = 0;
 				lastTime = System.nanoTime();
 				currentTime = 0;
@@ -82,5 +84,6 @@ public class Panel extends JPanel implements Runnable {
 			}
 		}
 	}
+	
 	
 }

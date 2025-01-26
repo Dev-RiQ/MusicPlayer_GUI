@@ -23,7 +23,7 @@ public class MusicLengthLine {
 	public void addLine(Panel panel) {
 		line = new JLabel("●===========================================================");
 		panel.add(line);
-		line.setPreferredSize(new Dimension(500,30));
+		line.setPreferredSize(new Dimension(500,13));
 		line.setHorizontalAlignment(JLabel.CENTER);
 		line.setForeground(Color.WHITE);
 	}

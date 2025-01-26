@@ -50,8 +50,8 @@ public class SoundInfo {
 	/** setting Title and Artist info */
 	private void setInfo(Panel panel, String fileName) {
 		String[] fileInfo = getDivideName(fileName);
-		setMusicText(title, panel, fileInfo[0], 20);
-		setMusicText(artist, panel, fileInfo[1], 13);
+		setMusicTitle(panel, fileInfo[0]);
+		setMusicArtist(panel, fileInfo[1]);
 		setMusicLength(panel, (int) Panel.getInstance().getCurTime());
 	}
 
@@ -68,27 +68,40 @@ public class SoundInfo {
 		}
 		return fileInfo;
 	}
+	
+	/** setting music text */
+	private void setMusicTitle(Panel panel, String data) {
+		if (title == null) {
+			title = new JLabel(data);
+			title.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+			title.setForeground(Color.WHITE);
+			setLabelStyle(title);
+			panel.add(title);
+		} else
+			title.setText(data);
+	}
 
 	/** setting music text */
-	private void setMusicText(JLabel label, Panel panel, String data, int size) {
-		if (label == null) {
-			label = new JLabel(data);
-			label.setFont(new Font("맑은 고딕", Font.BOLD, size));
-			label.setForeground(Color.LIGHT_GRAY);
-			setLabelStyle(label);
-			panel.add(label);
+	private void setMusicArtist(Panel panel, String data) {
+		if (artist == null) {
+			artist = new JLabel(data);
+			artist.setFont(new Font("맑은 고딕", Font.BOLD, 13));
+			artist.setForeground(Color.LIGHT_GRAY);
+			setLabelStyle(artist);
+			panel.add(artist);
 		} else
-			label.setText(data);
+			artist.setText(data);
 	}
 	
 	/** setting music length text */
 	public void setMusicLength(Panel panel, int curTime) {
-		String text = String.format("%d:%02d / %d:%02d", curTime/60,curTime%60,playTime/60,playTime%60);
+		String text = String.format("%d:%02d                                                                           %d:%02d", curTime/60,curTime%60,playTime/60,playTime%60);
 		if (time == null) {
 			time = new JLabel(text);
 			time.setFont(new Font("맑은 고딕",Font.PLAIN, 13));
 			time.setForeground(Color.WHITE);
 			setLabelStyle(time);
+			time.setPreferredSize(new Dimension(500, 12));
 			panel.add(time);
 		} else
 			time.setText(text);
@@ -96,7 +109,7 @@ public class SoundInfo {
 
 	/** setting JLabel to print text(Title, Artist) */
 	private void setLabelStyle(JLabel label) {
-		label.setPreferredSize(new Dimension(500, 24));
+		label.setPreferredSize(new Dimension(500, 30));
 		label.setHorizontalAlignment(JLabel.CENTER);
 	}
 }
