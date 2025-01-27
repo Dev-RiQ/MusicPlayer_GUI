@@ -72,7 +72,7 @@ public class SoundInfo {
 	/** setting music text */
 	private void setMusicTitle(Panel panel, String data) {
 		if (title == null) {
-			title = new JLabel(data);
+			title = new JLabel("");
 			title.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 			title.setForeground(Color.WHITE);
 			setLabelStyle(title);
@@ -84,7 +84,7 @@ public class SoundInfo {
 	/** setting music text */
 	private void setMusicArtist(Panel panel, String data) {
 		if (artist == null) {
-			artist = new JLabel(data);
+			artist = new JLabel("");
 			artist.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 			artist.setForeground(Color.LIGHT_GRAY);
 			setLabelStyle(artist);
@@ -97,7 +97,7 @@ public class SoundInfo {
 	public void setMusicLength(Panel panel, int curTime) {
 		String text = String.format("%d:%02d                                                                           %d:%02d", curTime/60,curTime%60,playTime/60,playTime%60);
 		if (time == null) {
-			time = new JLabel(text);
+			time = new JLabel("");
 			time.setFont(new Font("맑은 고딕",Font.PLAIN, 13));
 			time.setForeground(Color.WHITE);
 			setLabelStyle(time);

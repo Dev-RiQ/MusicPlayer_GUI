@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import lengthLine.MusicLengthLine;
 import music.SoundController;
@@ -13,7 +14,7 @@ import music.SoundInfo;
 public class Panel extends JPanel implements Runnable {
 
 	private final int screenWidth = 460;
-	private final int screenHeight = 610;
+	private final int screenHeight = 615;
 	private Thread thread;
 	private double curTime;
 	
@@ -31,9 +32,10 @@ public class Panel extends JPanel implements Runnable {
 
 	private Panel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		this.setBackground(Color.black);
+		this.setBackground(Color.DARK_GRAY);
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);
+		this.setBorder(new LineBorder(Color.GRAY,2,true));
 	}
 
 	private static Panel instance;

@@ -51,9 +51,10 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener{
 	private Component titleBar() {
 		JLabel label = new JLabel("  RiQ_Player");
 		label.setBackground(Color.BLACK);
-		label.setPreferredSize(new Dimension(400, 30));
+		label.setPreferredSize(new Dimension(390, 30));
 		label.setHorizontalAlignment(JLabel.LEFT);
-		label.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+		label.setVerticalAlignment(JLabel.TOP);
+		label.setFont(new Font("맑은 고딕", Font.BOLD, 18));
 		label.setForeground(Color.WHITE);
 		label.addMouseListener(this);
 		label.addMouseMotionListener(this);

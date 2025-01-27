@@ -46,14 +46,15 @@ public class Button extends JButton {
 		timeIncrease = new JButton("+5s");
 		volumeDown = new JButton("Vol-");
 		volumeUp = new JButton("Vol+");
-		exit = new JButton("×");
+		exit = new JButton("Ⅹ");
 	}
 	
 	/** get title exit button */
 	public Component getExit() {
 		setStyle(exit);
 		exit.setFont(new Font("맑은 고딕",Font.BOLD,20));
-		exit.setPreferredSize(new Dimension(50, 30));
+		exit.setPreferredSize(new Dimension(55, 30));
+		exit.setVerticalAlignment(JButton.BOTTOM);
 		return exit;
 	}
 	

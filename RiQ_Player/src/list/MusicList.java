@@ -52,10 +52,11 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 			list = new JList<Object>(data);
 			list.setVisibleRowCount(5);
 			scrollPane = new JScrollPane(list);
-			scrollPane.setPreferredSize(new Dimension(450,110));
+			scrollPane.setPreferredSize(new Dimension(440,110));
 			list.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 			list.setForeground(Color.WHITE);
-			list.setBackground(Color.black);
+			list.setBackground(Color.GRAY);
+			list.setSelectionBackground(Color.LIGHT_GRAY);
 			list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			list.addMouseListener(this);
 			list.addKeyListener(this);
