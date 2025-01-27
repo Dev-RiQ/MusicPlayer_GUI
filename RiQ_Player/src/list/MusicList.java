@@ -50,9 +50,9 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	public void setList(Object[] data) {
 		if(list == null) {
 			list = new JList<Object>(data);
-			list.setVisibleRowCount(3);
+			list.setVisibleRowCount(5);
 			scrollPane = new JScrollPane(list);
-			scrollPane.setPreferredSize(new Dimension(450,70));
+			scrollPane.setPreferredSize(new Dimension(450,110));
 			list.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 			list.setForeground(Color.WHITE);
 			list.setBackground(Color.black);
@@ -64,6 +64,17 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 		}else {
 			list.setListData(data);
 		}
+	}
+	
+	/** now playing music focusing and set Horizontal Center  */
+	public void setPosition(int idx) {
+		list.setSelectedIndex(idx);
+		scrollPane.getVerticalScrollBar().setValue(list.getSelectedIndex() * 21 - 42);
+	}
+	
+	/** when list is suffled, scroll reset  */
+	public void positionReset() {
+		scrollPane.getVerticalScrollBar().setValue(0);
 	}
 	
 	/** select list component delete */
@@ -80,7 +91,6 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	public void mouseClicked(MouseEvent e) {
 		if(e.getClickCount() == 2) {
 			SoundController.getInstance().play(list.getSelectedIndex());
-			list.clearSelection();
 		}
 	}
 

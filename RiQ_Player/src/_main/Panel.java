@@ -13,7 +13,7 @@ import music.SoundInfo;
 public class Panel extends JPanel implements Runnable {
 
 	private final int screenWidth = 460;
-	private final int screenHeight = 275;
+	private final int screenHeight = 610;
 	private Thread thread;
 	private double curTime;
 	
@@ -46,6 +46,13 @@ public class Panel extends JPanel implements Runnable {
 	public void startThread() {
 		thread = new Thread(this);
 		thread.start();
+	}
+	
+	/** Thread Off */
+	public void endThread() {
+		thread = null;
+		SoundController.getInstance().stop();
+		Frame.getInstance().dispose();
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import _main.Panel;
+import list.MusicList;
 
 public class SoundController {
 
@@ -79,7 +80,7 @@ public class SoundController {
 			
 		}
 	}
-	
+
 	/** play select music */
 	public void play(int idx) {
 		clip.stop();
@@ -98,6 +99,8 @@ public class SoundController {
 
 	/** play music default setting */
 	private void defaultPlaySet() {
+		Image.getInstance().setImage(panel);
+		MusicList.getInstance().setPosition(count - 1);
 		VolumeHandler.getInstance().volumeSetting();
 		if(!isPause)
 			isNew = true;
@@ -150,6 +153,7 @@ public class SoundController {
 		count = 0;
 		Collections.shuffle(sound.getSoundURL());
 		sound.setSoundList();
+		MusicList.getInstance().positionReset();
 		setNewPlay();
 	}
 	

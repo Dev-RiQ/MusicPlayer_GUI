@@ -1,6 +1,7 @@
 package button;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -15,7 +16,7 @@ import music.VolumeHandler;
 @SuppressWarnings("serial")
 public class Button extends JButton {
 
-	private JButton play, stop, pause, before, next, suffle, volumeDown, volumeUp, timeDecrease, timeIncrease;
+	private JButton play, stop, pause, before, next, suffle, volumeDown, volumeUp, timeDecrease, timeIncrease, exit;
 	private SoundController soundController;
 	private VolumeHandler volumeH;
 	
@@ -45,6 +46,15 @@ public class Button extends JButton {
 		timeIncrease = new JButton("+5s");
 		volumeDown = new JButton("Vol-");
 		volumeUp = new JButton("Vol+");
+		exit = new JButton("×");
+	}
+	
+	/** get title exit button */
+	public Component getExit() {
+		setStyle(exit);
+		exit.setFont(new Font("맑은 고딕",Font.BOLD,20));
+		exit.setPreferredSize(new Dimension(50, 30));
+		return exit;
 	}
 	
 	/** apply button style */
@@ -136,6 +146,11 @@ public class Button extends JButton {
 		timeIncrease.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				soundController.timeIncrease();
+			}
+		});
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Panel.getInstance().endThread();
 			}
 		});
 
