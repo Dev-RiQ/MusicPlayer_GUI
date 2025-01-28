@@ -26,7 +26,7 @@ public class Image {
 			label = new JLabel();
 			label.setBackground(Color.BLACK);
 			label.setBorder(new LineBorder(Color.WHITE, 2, false));
-			label.setPreferredSize(new Dimension(465, 250));
+			label.setPreferredSize(new Dimension(465, 296));
 			label.setVerticalAlignment(JLabel.BOTTOM);
 			label.setIcon(new ImageIcon(Sound.getInstance().getImage()));
 			label.setHorizontalAlignment(JLabel.CENTER);

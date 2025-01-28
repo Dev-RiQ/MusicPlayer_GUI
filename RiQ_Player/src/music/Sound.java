@@ -16,8 +16,11 @@ import javax.swing.ImageIcon;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import com.aspose.imaging.Graphics;
 import com.aspose.imaging.ImageOptionsBase;
+import com.aspose.imaging.ImageResizeSettings;
 import com.aspose.imaging.Rectangle;
+import com.aspose.imaging.SmoothingMode;
 import com.aspose.imaging.imageoptions.PngOptions;
 
 import list.MusicList;
@@ -148,7 +151,7 @@ public class Sound{
 	/** get start image (noImage.png) */
 	public Image getImage() {
 		ImageIcon icon = new ImageIcon("res/image/noImage.png");
-		Image img = icon.getImage().getScaledInstance(300, 250, Image.SCALE_SMOOTH);
+		Image img = icon.getImage().getScaledInstance(296, 296, Image.SCALE_SMOOTH);
 		return img;
 	}
 	
@@ -164,7 +167,7 @@ public class Sound{
 		} catch (Exception e) {
 			img = new ImageIcon("res/image/noImage.png").getImage();
 		}
-		return img.getScaledInstance(300, 300, Image.SCALE_AREA_AVERAGING);
+		return img.getScaledInstance(296, 343, Image.SCALE_AREA_AVERAGING);
 	}
 	
 	/** get and save image  */
@@ -203,6 +206,7 @@ public class Sound{
 	/** change .webp file to .png */
 	private void changeWebpToPng() {
 		try (com.aspose.imaging.Image image = com.aspose.imaging.Image.load(filePath + "image\\image.webp")){
+			image.resize(296,343,com.aspose.imaging.ResizeType.LeftBottomToLeftBottom);
 			ImageOptionsBase iob = new PngOptions();
 			image.save(filePath + "image\\image.png",iob,Rectangle.getEmpty());
 		} catch (Exception e) {

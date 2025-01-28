@@ -14,7 +14,7 @@ import music.SoundInfo;
 public class Panel extends JPanel implements Runnable {
 
 	private final int screenWidth = 460;
-	private final int screenHeight = 615;
+	private final int screenHeight = 660;
 	private Thread thread;
 	private double curTime;
 	
