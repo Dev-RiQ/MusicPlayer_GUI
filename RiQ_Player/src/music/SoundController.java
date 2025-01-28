@@ -84,8 +84,7 @@ public class SoundController {
 
 	/** play select music */
 	public void play(int idx) {
-		clip.stop();
-		panel.resetCurTime();
+		stop();
 		setFile(idx);
 		defaultPlaySet();
 	}

@@ -86,7 +86,7 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	/** now playing music focusing and set Horizontal Center  */
 	public void setPosition(int idx) {
 		list.setSelectedIndex(idx);
-		scrollPane.getVerticalScrollBar().setValue(list.getSelectedIndex() * 21 - 42);
+		scrollPane.getVerticalScrollBar().setValue(list.getSelectedIndex() * 21);
 	}
 	
 	/** when list is suffled, scroll reset  */

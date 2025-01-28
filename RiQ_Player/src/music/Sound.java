@@ -155,7 +155,7 @@ public class Sound{
 	/** get save image.png from apple music search source image */
 	public Image getImage(int idx) {
 		String fileName = soundList.get(idx);
-		String URL = String.format("https://music.apple.com/kr/search?term=%s",fileName.replace(" ", "%20"));
+		String URL = String.format("https://music.apple.com/kr/search?term=%s",fileName.replace(" - ", " ").replace(" ", "%20"));
 		Image img = null;
 		try {
 			getAndSaveImage(URL);
@@ -169,7 +169,7 @@ public class Sound{
 	
 	/** get and save image  */
 	private void getAndSaveImage(String imageUrl) throws Exception{
-		Document doc = Jsoup.connect(imageUrl).get();
+		Document doc = Jsoup.connect(imageUrl).timeout(2000).get();
 		String path = doc.select("source").get(0).attr("srcset");
 		path = path.substring(0,path.indexOf(",") -19)+"296x296bf.webp";
 		saveWebpFile(path);
