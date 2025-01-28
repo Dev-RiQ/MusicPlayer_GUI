@@ -161,10 +161,11 @@ public class Sound{
 			getAndSaveImage(URL);
 			changeWebpToPng();
 			img = new ImageIcon("res/image/image.png").getImage();
+			return img.getScaledInstance(296, 343, Image.SCALE_AREA_AVERAGING);
 		} catch (Exception e) {
 			img = new ImageIcon("res/image/noImage.png").getImage();
 		}
-		return img.getScaledInstance(296, 343, Image.SCALE_AREA_AVERAGING);
+		return img.getScaledInstance(296, 296, Image.SCALE_AREA_AVERAGING);
 	}
 	
 	/** get and save image  */
