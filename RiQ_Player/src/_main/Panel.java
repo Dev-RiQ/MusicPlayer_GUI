@@ -13,8 +13,8 @@ import music.SoundInfo;
 @SuppressWarnings("serial")
 public class Panel extends JPanel implements Runnable {
 
-	private final int screenWidth = 460;
-	private final int screenHeight = 660;
+	private final int screenWidth = 360;
+	private final int screenHeight = 580;
 	private Thread thread;
 	private double curTime;
 	
@@ -79,9 +79,7 @@ public class Panel extends JPanel implements Runnable {
 				sec += (currentTime - lastTime) / timeInteval;
 			}
 			lastTime = currentTime;
-			if(((int)(curTime % (SoundInfo.getInstance().getPlayTime() *1.0 / 60))) == 0) {
-				MusicLengthLine.getInstance().playTimeLine((int)(curTime / (SoundInfo.getInstance().getPlayTime() * 1.0 / 60)));
-			}
+			MusicLengthLine.getInstance().playTimeLine((int)(curTime / (SoundInfo.getInstance().getPlayTime() * 1.0 / 47)));
 			if(sec >= 1) {
 				sec = 0;
 				if(SoundController.getInstance().isPlay())

@@ -16,6 +16,7 @@ import lengthLine.MusicLengthLine;
 import music.Image;
 import music.Sound;
 import music.SoundInfo;
+import music.VolumeHandler;
 
 @SuppressWarnings("serial")
 public class Frame extends JFrame implements MouseListener, MouseMotionListener{
@@ -38,6 +39,7 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener{
 		SoundInfo.getInstance().setMusicInfo(panel);
 		MusicLengthLine.getInstance().addLine(panel);
 		Button.getInstance().addButton(panel);
+		VolumeHandler.getInstance().addVolumeCont(panel);
 		Sound.getInstance().setSoundList();
 		pack();
 
@@ -51,7 +53,7 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener{
 	private Component titleBar() {
 		JLabel label = new JLabel("  RiQ_Player");
 		label.setBackground(Color.BLACK);
-		label.setPreferredSize(new Dimension(390, 30));
+		label.setPreferredSize(new Dimension(290, 30));
 		label.setHorizontalAlignment(JLabel.LEFT);
 		label.setVerticalAlignment(JLabel.TOP);
 		label.setFont(new Font("맑은 고딕", Font.BOLD, 18));

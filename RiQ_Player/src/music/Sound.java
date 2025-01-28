@@ -16,11 +16,8 @@ import javax.swing.ImageIcon;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import com.aspose.imaging.Graphics;
 import com.aspose.imaging.ImageOptionsBase;
-import com.aspose.imaging.ImageResizeSettings;
 import com.aspose.imaging.Rectangle;
-import com.aspose.imaging.SmoothingMode;
 import com.aspose.imaging.imageoptions.PngOptions;
 
 import list.MusicList;

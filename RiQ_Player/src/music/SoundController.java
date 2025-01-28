@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import _main.Panel;
+import button.Button;
 import list.MusicList;
 
 public class SoundController {
@@ -104,9 +105,11 @@ public class SoundController {
 		VolumeHandler.getInstance().volumeSetting();
 		if(!isPause)
 			isNew = true;
+		SoundInfo.getInstance().setMusicInfo(panel);
 		isStop = false;
 		isPause = false;
 		isPlay = true;
+		Button.getInstance().setPlayButton(isPlay);
 		clip.start();
 	}
 	
@@ -128,67 +131,42 @@ public class SoundController {
 		clip.stop();
 		isPause = true;
 		isPlay = false;
+		Button.getInstance().setPlayButton(isPlay);
 	}
 	
 	/** move to before music */
 	public void before() {
-		clip.stop();
+		stop();
 		if(isStop) count--;
 		else count-=2;
 		if(count < 0) count = sound.getListSIZE() - 1;
-		setNewPlay();
+		play();
 	}
 	
 	/** move to next music */
 	public void next() {
-		clip.stop();
+		stop();
 		if(isStop || !isPlay) count++;
 		if(count >= sound.getListSIZE()) count = 0;
-		setNewPlay();
+		play();
 	}
 	
 	/** suffle music list */
 	public void suffle() {
-		clip.stop();
+		stop();
 		count = 0;
 		Collections.shuffle(sound.getSoundURL());
 		sound.setSoundList();
 		MusicList.getInstance().positionReset();
-		setNewPlay();
-	}
-	
-	/** change music default setting */
-	private void setNewPlay() {
-		isPlay = false;
-		panel.resetCurTime();
 		play();
 	}
 	
-	/** time position -5sec by current time */
-	public void timeDecrease() {
+	/** time position adjust in parameter time */
+	public void timeSet(int time) {
 		if(!isPlay) return;
-		clip.stop();
-		if(panel.getCurTime() < 5)
-			panel.setCurTime(0);
-		else 
-			panel.setCurTime(panel.getCurTime() - 5);
-		setPosition();
-	}
-	
-	/** time position +5sec by current time */
-	public void timeIncrease() {
-		if(!isPlay) return;
-		clip.stop();
-		if(SoundInfo.getInstance().getPlayTime() - panel.getCurTime() < 5)
-			panel.setCurTime(SoundInfo.getInstance().getPlayTime());
-		else 
-			panel.setCurTime(panel.getCurTime() + 5);
-		setPosition();
-	}
-	
-	/** play music in time position */
-	private void setPosition() {
+		panel.setCurTime(time);
 		clip.setMicrosecondPosition((int) panel.getCurTime() * 1000000);
 		clip.start();
 	}
+	
 }

@@ -34,4 +34,12 @@ public class Image {
 		}else
 			label.setIcon(new ImageIcon(Sound.getInstance().getImage(SoundController.getCount() - 1)));
 	}
+	
+	/** transform image label visible */
+	public void setVisionImage() {
+		if(label.isVisible())
+			label.setVisible(false);
+		else
+			label.setVisible(true);
+	}
 }

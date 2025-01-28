@@ -25,6 +25,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import _main.Panel;
+import music.Image;
 import music.Sound;
 import music.SoundController;
 
@@ -36,8 +37,10 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	private boolean isPressDel;
 	private boolean isPressIns;
 	DropTarget target;
+	Panel panel;
 	
 	public MusicList() {
+		panel = Panel.getInstance();
 		target = new DropTarget(list, DnDConstants.ACTION_COPY_OR_MOVE , this);
 	}
 	private static MusicList instance;
@@ -46,13 +49,26 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 		return instance;
 	}
 	
+	/** transform music list visible */
+	public void setVisionPane() {
+		if(scrollPane.isVisible())
+			scrollPane.setVisible(false);
+		else
+			scrollPane.setVisible(true);
+		Image.getInstance().setVisionImage();
+	}
+
 	/** music list setting */
+	@SuppressWarnings("static-access")
 	public void setList(Object[] data) {
 		if(list == null) {
 			list = new JList<Object>(data);
 			list.setVisibleRowCount(5);
 			scrollPane = new JScrollPane(list);
-			scrollPane.setPreferredSize(new Dimension(440,110));
+			scrollPane.setPreferredSize(new Dimension(344,295));
+			scrollPane.setVisible(false);
+			scrollPane.setVerticalScrollBarPolicy(scrollPane.VERTICAL_SCROLLBAR_NEVER);
+			scrollPane.setHorizontalScrollBarPolicy(scrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			list.setFont(new Font("맑은 고딕", Font.BOLD, 13));
 			list.setForeground(Color.WHITE);
 			list.setBackground(Color.GRAY);
