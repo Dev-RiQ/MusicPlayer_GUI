@@ -71,7 +71,7 @@ public class Sound{
 		soundList = new ArrayList<>();
 		for(int i = 0 ; i < soundURL.size() ; i++) {
 			String[] temp = soundURL.get(i).getPath().split("/"); 
-			soundList.add(temp[temp.length - 1].substring(0,temp[temp.length - 1].length() - 4));
+			soundList.add(" " + (i+1) + ". " + temp[temp.length - 1].substring(0,temp[temp.length - 1].length() - 4));
 		}
 		MusicList.getInstance().setList(soundList.toArray());
 	}
