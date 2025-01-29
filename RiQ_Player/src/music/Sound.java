@@ -77,6 +77,18 @@ public class Sound{
 		musicList.setList(soundList.toArray());
 	}
 	
+	public void moveList(int idx, int dir) {
+		if(dir == -1 && idx == 0) return;
+		if(dir == 1 && idx == soundURL.size() -1) return;
+		URL tempURL = soundURL.get(idx);
+		soundURL.set(idx, soundURL.get(idx + dir));
+		soundURL.set(idx + dir, tempURL);
+		String temp = soundList.get(idx);
+		soundList.set(idx, soundList.get(idx + dir));
+		soundList.set(idx + dir, temp);
+		saveAndSetPlayList();
+	}
+	
 	/** get music list in /res/music/*.wav */
 	private String[] getMusicList(String fileName) {
 		File dir = new File(filePath+fileName);

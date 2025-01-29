@@ -34,8 +34,7 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 
 	private JList<Object> list;
 	private JScrollPane scrollPane;
-	private boolean isPressDel;
-	private boolean isPressIns;
+	private boolean isPressDel, isPressIns, isPressUp, isPressDown;
 	DropTarget target;
 	Panel panel;
 	Sound sound;
@@ -129,6 +128,7 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
+	int idx;
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == 155  && !isPressIns && !list.isSelectionEmpty()) {
@@ -141,6 +141,16 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 			sound.deleteMusic(list.getSelectedIndex());
 			list.clearSelection();
 		}
+		if(e.getKeyCode() == 38 && !isPressUp && !list.isSelectionEmpty()) {
+			isPressUp = true;
+			idx = list.getSelectedIndex();
+			sound.moveList(idx, -1);
+		}
+		if(e.getKeyCode() == 40 && !isPressDown && !list.isSelectionEmpty()) {
+			isPressDown = true;
+			idx = list.getSelectedIndex();
+			sound.moveList(idx, +1);
+		}
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -149,6 +159,12 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 		}
 		if(e.getKeyCode() == '\u007F') {
 			isPressDel = false;
+		}
+		if(e.getKeyCode() == 38) {
+			isPressUp = false;
+		}
+		if(e.getKeyCode() == 40) {
+			isPressDown = false;
 		}
 	}
 
