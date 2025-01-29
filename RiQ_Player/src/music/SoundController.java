@@ -14,7 +14,7 @@ public class SoundController {
 
 	private Clip clip;//오디오 파일
 	private static int count;
-	private boolean isPause,isPlay,isStop,isNew;
+	private boolean isPause,isPlay,isStop,isNew,isRun;
 	private Sound sound;
 	private Panel panel;
 	private static final int AUDIO_SPEED = 44100;
@@ -105,6 +105,7 @@ public class SoundController {
 
 	/** play music default setting */
 	private void defaultPlaySet() {
+		if(!isRun) isRun = true;
 		if(!isPause)
 			ImageDAO.getInstance().setImage(panel);
 		musicList.setPosition(count - 1);
@@ -169,10 +170,12 @@ public class SoundController {
 	
 	/** time position adjust in parameter time */
 	public void timeSet(int time) {
-		if(!isPlay) return;
+		if(!isRun) return;
 		panel.setCurTime(time);
+		soundInfo.setMusicInfo(panel);
 		clip.setMicrosecondPosition((int) panel.getCurTime() * 1000000);
-		clip.start();
+		if(isPlay)
+			clip.start();
 	}
 	
 }
