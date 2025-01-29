@@ -77,6 +77,7 @@ public class Sound{
 		musicList.setList(soundList.toArray());
 	}
 	
+	@SuppressWarnings("static-access")
 	public void moveList(int idx, int dir) {
 		if(dir == -1 && idx == 0) return;
 		if(dir == 1 && idx == soundURL.size() -1) return;
@@ -86,6 +87,9 @@ public class Sound{
 		String temp = soundList.get(idx);
 		soundList.set(idx, soundList.get(idx + dir));
 		soundList.set(idx + dir, temp);
+		int count = SoundController.getInstance().getCount();
+		if(count == idx + 1)
+			SoundController.getInstance().setCount(count + dir);
 		saveAndSetPlayList();
 	}
 	

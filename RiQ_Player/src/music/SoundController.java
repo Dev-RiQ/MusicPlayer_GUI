@@ -41,6 +41,10 @@ public class SoundController {
 		return count;
 	}
 
+	public static void setCount(int count) {
+		SoundController.count = count;
+	}
+
 	public Clip getClip() {
 		return clip;
 	}
@@ -139,6 +143,7 @@ public class SoundController {
 		isPause = true;
 		isPlay = false;
 		Button.getInstance().setPlayButton(isPlay);
+		musicList.setPosition(count - 1);
 	}
 	
 	/** move to before music */

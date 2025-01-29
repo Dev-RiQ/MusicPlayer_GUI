@@ -24,6 +24,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import _main.Frame;
 import _main.Panel;
 import music.ImageDAO;
 import music.Sound;
@@ -107,6 +108,8 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		list.setFocusable(true);
+		list.requestFocus();
 		if(e.getClickCount() == 2) {
 			SoundController.getInstance().play(list.getSelectedIndex());
 		}
@@ -128,44 +131,52 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
+	
 	int idx;
 	@Override
 	public void keyPressed(KeyEvent e) {
+		Frame.getInstance().keyPressed(e);
+		if(e.getKeyCode() == 32) {
+			list.setFocusable(false);
+		}
 		if(e.getKeyCode() == 155  && !isPressIns && !list.isSelectionEmpty()) {
 			isPressIns = true;
 			sound.restoreMusic();
-			list.clearSelection();
 		}
 		if(e.getKeyCode() == '\u007F' && !isPressDel && !list.isSelectionEmpty()) {
 			isPressDel = true;
 			sound.deleteMusic(list.getSelectedIndex());
-			list.clearSelection();
 		}
-		if(e.getKeyCode() == 38 && !isPressUp && !list.isSelectionEmpty()) {
+		if(e.getKeyCode() == 36 && !isPressUp && !list.isSelectionEmpty()) {
 			isPressUp = true;
 			idx = list.getSelectedIndex();
 			sound.moveList(idx, -1);
+			list.setSelectedIndex(idx - 1);
 		}
-		if(e.getKeyCode() == 40 && !isPressDown && !list.isSelectionEmpty()) {
+		if(e.getKeyCode() == 35 && !isPressDown && !list.isSelectionEmpty()) {
 			isPressDown = true;
 			idx = list.getSelectedIndex();
 			sound.moveList(idx, +1);
+			list.setSelectedIndex(idx + 1);
 		}
+		e.consume();
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
+		Frame.getInstance().keyReleased(e);
 		if(e.getKeyCode() == 155) {
 			isPressIns = false;
 		}
 		if(e.getKeyCode() == '\u007F') {
 			isPressDel = false;
 		}
-		if(e.getKeyCode() == 38) {
+		if(e.getKeyCode() == 36) {
 			isPressUp = false;
 		}
-		if(e.getKeyCode() == 40) {
+		if(e.getKeyCode() == 35) {
 			isPressDown = false;
 		}
+		e.consume();
 	}
 
 	@SuppressWarnings("unchecked")

@@ -30,9 +30,14 @@ public class Button extends JButton {
 		soundController = SoundController.getInstance();
 		setNewButton();
 		setButtonStyle();
+		removeKeyListener(null);
 		action();
 	}
 	
+	public JButton getPlay() {
+		return play;
+	}
+
 	/** create new button */
 	private void setNewButton() {
 		play = new JButton(" ▶️");
@@ -79,6 +84,7 @@ public class Button extends JButton {
 		button.setFont(new Font("맑은 고딕",Font.BOLD,15));
 		button.setContentAreaFilled(false);
 		button.setFocusPainted(false);
+		button.setFocusable(false);
 	}
 	
 	/** add button to panel */
@@ -135,4 +141,5 @@ public class Button extends JButton {
 		});
 
 	}
+	
 }

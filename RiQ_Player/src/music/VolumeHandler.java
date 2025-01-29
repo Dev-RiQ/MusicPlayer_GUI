@@ -67,6 +67,16 @@ public class VolumeHandler implements MouseListener, MouseMotionListener{
 		setGain((float) setting.getValue());
 	}
 	
+	public void setVolume(int num) {
+		float f = (float) (setting.getValue());
+		if(f == -80) f = -50;
+		f += num * 2;
+		if(f >= 0 || f <= -50) return;
+		int idx = (int) ((49 + f) / 2);
+		setGain(f);
+		playTimeLine(idx);
+	}
+	
 	// X : 80 ~ 260
 	// gain : 0 ~ -50
 	/** volume control by move volume bar */
