@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import lengthLine.MusicLengthLine;
+import music.Sound;
 import music.SoundController;
 import music.SoundInfo;
 
@@ -95,6 +96,7 @@ public class Panel extends JPanel implements Runnable {
 				}
 			}
 		}
+		Sound.getInstance().savePlayList("playList.txt",Sound.getInstance().getPlayList());
 	}
 	
 	

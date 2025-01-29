@@ -1,6 +1,9 @@
 package music;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -70,6 +73,7 @@ public class Sound{
 			soundList.add(" " + (i+1) + ". " + temp[temp.length - 1].substring(0,temp[temp.length - 1].length() - 4));
 		}
 		musicList = MusicList.getInstance();
+		savePlayList("playList.txt", getPlayList());
 		musicList.setList(soundList.toArray());
 	}
 	
@@ -81,16 +85,20 @@ public class Sound{
 
 	/** get only .wav file safety */
 	private String[] getwavFile(File dir) {
-		List<String> list = new ArrayList<>();
-		for (String file : dir.list())
-			if (file.substring(file.length() - 4, file.length()).equals(".wav"))
-				list.add(file);
-		String[] fileList = new String[list.size()];
-		for (int i = 0; i < list.size(); i++)
-			fileList[i] = list.get(i);
-		return fileList;
+		String playList = loadPlayList("playList.txt");
+		if(playList == null) {
+			List<String> list = new ArrayList<>();
+			for (String file : dir.list())
+				if (file.substring(file.length() - 4, file.length()).equals(".wav"))
+					list.add(file);
+			String[] fileList = new String[list.size()];
+			for (int i = 0; i < list.size(); i++)
+				fileList[i] = list.get(i);
+			return fileList;
+		}
+		return playList.split("\n");
 	}
-
+	
 	/** add music file */
 	@SuppressWarnings("deprecation")
 	public void addMusic(File loadFile, File addFile) {
@@ -100,48 +108,78 @@ public class Sound{
 			if(addFile.exists()) return;
 			Files.copy(loadFile.toPath(), addFile.toPath());
 			soundURL.add(addFile.toURL());
-			soundList.add(addFile.getName().substring(0,addFile.getName().length() - 4));
-			musicList.setList(soundList.toArray());
+			saveAndSetPlayList();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	/** delete music file */
+	/** delete music in list */
 	public void deleteMusic(int idx) {
-		File deleteFile =new File(filePath + "music\\" + soundList.get(idx)+".wav");
-		File saveFile = new File(filePath + "deleteMusic\\" + soundList.get(idx)+".wav");
-		try {
-			if(saveFile.exists())
-				deleteFile.delete();
-			else
-				deleteFile.renameTo(saveFile);
-			soundURL.remove(idx);
-			soundList.remove(idx);
-			musicList.setList(soundList.toArray());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		StringBuilder sb = new StringBuilder();
+		if(loadPlayList("deleteList.txt") == null)
+			sb.append(soundList.get(idx).substring(soundList.get(idx).indexOf(".") + 2) + ".wav");
+		else
+			sb.append(loadPlayList("deleteList.txt") + "\n" + soundList.get(idx).substring(soundList.get(idx).indexOf(".") + 2) + ".wav");
+		soundURL.remove(idx);
+		savePlayList("deleteList.txt", sb.toString());
+		saveAndSetPlayList();
 	}
 	
-	/** restore all music file */
+	/** restore all music list */
 	@SuppressWarnings("deprecation")
 	public void restoreMusic() {
-		String[] list = getMusicList("deleteMusic");
+		if(loadPlayList("deleteList.txt") == null) return;
+		String[] list = loadPlayList("deleteList.txt").split("\n");
 		for(int i = 0 ; i < list.length ; i++) {
-			File restoreFile =new File(filePath + "deleteMusic\\" + list[i]);
-			File addFile = new File(filePath + "music\\" + list[i]);
+			File restoreFile =new File(filePath + "music\\" + list[i]);
 			try {
-				restoreFile.renameTo(addFile);
-				soundURL.add(addFile.toURL());
+				soundURL.add(restoreFile.toURL());
 				soundList.add(list[i].substring(0,list[i].length() - 4));
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
 		}
+		savePlayList("deleteList.txt","");
+		saveAndSetPlayList();
+	}
+	
+	private void saveAndSetPlayList() {
+		setSoundList();
+		savePlayList("playList.txt", getPlayList());
 		musicList.setList(soundList.toArray());
 	}
-
 	
+	/** get now play list */
+	public String getPlayList() {
+		StringBuilder sb = new StringBuilder();
+		for(String list : soundList)
+			sb.append(list.substring(list.indexOf(".")+2) + ".wav\n");
+		return sb.toString().substring(0, sb.length() - 1);
+	}
+
+	/** save now play list */
+	public void savePlayList(String fileName, String data) {
+		try (FileWriter fw = new FileWriter(filePath + "playList\\" + fileName)){
+			fw.write(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/** get load play list */
+	private String loadPlayList(String fileName) {
+		StringBuilder sb = new StringBuilder();
+		try (FileReader fr = new FileReader(filePath + "playList\\" + fileName); BufferedReader br = new BufferedReader(fr)){
+			while(true) {
+				String temp = br.readLine();
+				if(temp == null) break;
+				sb.append(temp + "\n");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sb.toString().length() == 0? null : sb.toString().substring(0,sb.length()-1);
+	}
 
 }
