@@ -1,24 +1,11 @@
 package music;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Image;
-
-import javax.swing.ImageIcon;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
-import com.aspose.imaging.ImageOptionsBase;
-import com.aspose.imaging.Rectangle;
-import com.aspose.imaging.imageoptions.PngOptions;
 
 import list.MusicList;
 
@@ -27,6 +14,7 @@ public class Sound{
 	private List<URL> soundURL;
 	private List<String> soundList;
 	private final String filePath = System.getProperty("user.dir") + "\\res\\";
+	private MusicList musicList;
 
 	public List<URL> getSoundURL() {
 		return soundURL;
@@ -36,6 +24,14 @@ public class Sound{
 		return soundURL.size();
 	}
 	
+	public String getFilePath() {
+		return filePath;
+	}
+	
+	public String getFileName(int idx) {
+		return soundList.get(idx);
+	}
+
 	@SuppressWarnings("static-access")
 	public String getURL_Path() {
 		int count = SoundController.getInstance().getCount();
@@ -73,7 +69,8 @@ public class Sound{
 			String[] temp = soundURL.get(i).getPath().split("/"); 
 			soundList.add(" " + (i+1) + ". " + temp[temp.length - 1].substring(0,temp[temp.length - 1].length() - 4));
 		}
-		MusicList.getInstance().setList(soundList.toArray());
+		musicList = MusicList.getInstance();
+		musicList.setList(soundList.toArray());
 	}
 	
 	/** get music list in /res/music/*.wav */
@@ -104,7 +101,7 @@ public class Sound{
 			Files.copy(loadFile.toPath(), addFile.toPath());
 			soundURL.add(addFile.toURL());
 			soundList.add(addFile.getName().substring(0,addFile.getName().length() - 4));
-			MusicList.getInstance().setList(soundList.toArray());
+			musicList.setList(soundList.toArray());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -121,7 +118,7 @@ public class Sound{
 				deleteFile.renameTo(saveFile);
 			soundURL.remove(idx);
 			soundList.remove(idx);
-			MusicList.getInstance().setList(soundList.toArray());
+			musicList.setList(soundList.toArray());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -142,76 +139,9 @@ public class Sound{
 				e.printStackTrace();
 			}
 		}
-		MusicList.getInstance().setList(soundList.toArray());
+		musicList.setList(soundList.toArray());
 	}
 
-	/** get start image (noImage.png) */
-	public Image getImage() {
-		ImageIcon icon = new ImageIcon("res/image/noImage.png");
-		Image img = icon.getImage().getScaledInstance(296, 296, Image.SCALE_SMOOTH);
-		return img;
-	}
-	
-	/** get save image.png from apple music search source image */
-	public Image getImage(int idx) {
-		String fileName = soundList.get(idx);
-		String URL = String.format("https://music.apple.com/kr/search?term=%s",fileName.replace(" - ", " ").replace(" ", "%20"));
-		Image img = null;
-		try {
-			getAndSaveImage(URL);
-			changeWebpToPng();
-			img = new ImageIcon("res/image/image.png").getImage();
-			return img.getScaledInstance(296, 343, Image.SCALE_AREA_AVERAGING);
-		} catch (Exception e) {
-			img = new ImageIcon("res/image/noImage.png").getImage();
-		}
-		return img.getScaledInstance(296, 296, Image.SCALE_AREA_AVERAGING);
-	}
-	
-	/** get and save image  */
-	private void getAndSaveImage(String imageUrl) throws Exception{
-		Document doc = Jsoup.connect(imageUrl).timeout(2000).get();
-		String path = doc.select("source").get(0).attr("srcset");
-		path = path.substring(0,path.indexOf(",") -19)+"296x296bf.webp";
-		saveWebpFile(path);
-	}
-	
-	/** get path URL */
-	private URL getURL(String path) {
-		URL url;
-		try {
-			url = new URL(path);
-			return url;
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	/** save .webp image file */
-	private void saveWebpFile(String path) {
-		try (InputStream in = getURL(path).openStream(); OutputStream out = new FileOutputStream(filePath + "image\\image.webp");){
-			while(true) {
-				int data = in.read();
-				if(data == -1) break;
-				out.write(data);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/** change .webp file to .png */
-	private void changeWebpToPng() {
-		try (com.aspose.imaging.Image image = com.aspose.imaging.Image.load(filePath + "image\\image.webp")){
-			image.resize(296,343,com.aspose.imaging.ResizeType.LeftBottomToLeftBottom);
-			ImageOptionsBase iob = new PngOptions();
-			image.save(filePath + "image\\image.png",iob,Rectangle.getEmpty());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
 	
 
 }

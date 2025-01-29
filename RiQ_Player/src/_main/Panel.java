@@ -18,6 +18,9 @@ public class Panel extends JPanel implements Runnable {
 	private Thread thread;
 	private double curTime;
 	
+	private SoundInfo soundInfo;
+	private SoundController soundController;
+	
 	public void resetCurTime() {
 		curTime = 0;
 	}
@@ -48,12 +51,14 @@ public class Panel extends JPanel implements Runnable {
 	public void startThread() {
 		thread = new Thread(this);
 		thread.start();
+		soundInfo = SoundInfo.getInstance();
+		soundController = SoundController.getInstance();
 	}
 	
 	/** Thread Off */
 	public void endThread() {
 		thread = null;
-		SoundController.getInstance().stop();
+		soundController.stop();
 		Frame.getInstance().dispose();
 	}
 
@@ -65,27 +70,27 @@ public class Panel extends JPanel implements Runnable {
 		long currentTime = 0;
 		while(thread != null) {
 			// refresh time in music play
-			if(SoundController.getInstance().isNew()) {
-				SoundInfo.getInstance().setMusicInfo(this);
-				SoundInfo.getInstance().setMusicLength(this,0);
+			if(soundController.isNew()) {
+				soundInfo.setMusicInfo(this);
+				soundInfo.setMusicLength(this,0);
 				sec = 0;
 				lastTime = System.nanoTime();
 				currentTime = 0;
-				SoundController.getInstance().setNew(false);
+				soundController.setNew(false);
 			}
 			currentTime = System.nanoTime();
 			// don't calculate time when it pause
-			if(!SoundController.getInstance().isPause()) {
+			if(!soundController.isPause()) {
 				sec += (currentTime - lastTime) / timeInteval;
 			}
 			lastTime = currentTime;
 			MusicLengthLine.getInstance().playTimeLine((int)(curTime / (SoundInfo.getInstance().getPlayTime() * 1.0 / 47)));
 			if(sec >= 1) {
 				sec = 0;
-				if(SoundController.getInstance().isPlay())
-					SoundInfo.getInstance().setMusicLength(this,(int)++curTime);
+				if(soundController.isPlay())
+					soundInfo.setMusicLength(this,(int)++curTime);
 				if(curTime >=SoundInfo.getInstance().getPlayTime()) { 
-					SoundController.getInstance().next();
+					soundController.next();
 					curTime = 0;
 				}
 			}

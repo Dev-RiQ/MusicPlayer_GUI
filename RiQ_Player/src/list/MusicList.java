@@ -25,7 +25,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import _main.Panel;
-import music.Image;
+import music.ImageDAO;
 import music.Sound;
 import music.SoundController;
 
@@ -38,10 +38,12 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	private boolean isPressIns;
 	DropTarget target;
 	Panel panel;
+	Sound sound;
 	
 	public MusicList() {
 		panel = Panel.getInstance();
 		target = new DropTarget(list, DnDConstants.ACTION_COPY_OR_MOVE , this);
+		sound = Sound.getInstance();
 	}
 	private static MusicList instance;
 	public static MusicList getInstance() {
@@ -55,7 +57,7 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 			scrollPane.setVisible(false);
 		else
 			scrollPane.setVisible(true);
-		Image.getInstance().setVisionImage();
+		ImageDAO.getInstance().setVisionImage();
 	}
 
 	/** music list setting */
@@ -99,7 +101,7 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 		list.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				Sound.getInstance().deleteMusic(list.getSelectedIndex());
+				sound.deleteMusic(list.getSelectedIndex());
 			}
 		});
 	}
@@ -131,12 +133,12 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == 155  && !isPressIns && !list.isSelectionEmpty()) {
 			isPressIns = true;
-			Sound.getInstance().restoreMusic();
+			sound.restoreMusic();
 			list.clearSelection();
 		}
 		if(e.getKeyCode() == '\u007F' && !isPressDel && !list.isSelectionEmpty()) {
 			isPressDel = true;
-			Sound.getInstance().deleteMusic(list.getSelectedIndex());
+			sound.deleteMusic(list.getSelectedIndex());
 			list.clearSelection();
 		}
 	}
@@ -159,7 +161,7 @@ public class MusicList extends JFrame implements DropTargetListener, MouseListen
 				List<File> files = (List<File>) dtde.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 				for(File file : files) {
 					File addFile = new File(System.getProperty("user.dir") + "\\res\\music\\" + file.getName());
-					Sound.getInstance().addMusic(file, addFile);
+					sound.addMusic(file, addFile);
 				}
 				dtde.dropComplete(true);
 			} catch (Exception e) {

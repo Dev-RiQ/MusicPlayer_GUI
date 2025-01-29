@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 
 import button.Button;
 import lengthLine.MusicLengthLine;
-import music.Image;
+import music.ImageDAO;
 import music.Sound;
 import music.SoundInfo;
 import music.VolumeHandler;
@@ -35,7 +35,7 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener{
 		add(panel);
 		panel.add(titleBar());
 		panel.add(Button.getInstance().getExit());
-		Image.getInstance().setImage(panel);
+		ImageDAO.getInstance().setImage(panel);
 		SoundInfo.getInstance().setMusicInfo(panel);
 		MusicLengthLine.getInstance().addLine(panel);
 		Button.getInstance().addButton(panel);

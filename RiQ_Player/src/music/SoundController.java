@@ -18,6 +18,8 @@ public class SoundController {
 	private Sound sound;
 	private Panel panel;
 	private static final int AUDIO_SPEED = 44100;
+	private MusicList musicList;
+	private SoundInfo soundInfo;
 	
 	public boolean isPlay() {
 		return isPlay;
@@ -55,6 +57,8 @@ public class SoundController {
 	private SoundController() {
 		panel = Panel.getInstance();
 		sound = Sound.getInstance();
+		musicList = MusicList.getInstance();
+		soundInfo = SoundInfo.getInstance();
 		setFile();
 		count = 0;
 	}
@@ -62,9 +66,7 @@ public class SoundController {
 	/** play next music */
 	public void setFile() {
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(sound.getSoundURL().get(count++));
-			clip = AudioSystem.getClip();
-			clip.open(ais);
+			setClip(count++);
 		} catch (Exception e) {
 
 		}
@@ -73,13 +75,17 @@ public class SoundController {
 	/** play select music in list */
 	public void setFile(int idx) {
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(sound.getSoundURL().get(idx));
-			clip = AudioSystem.getClip();
-			clip.open(ais);
+			setClip(idx);
 			count = idx+1;
 		} catch (Exception e) {
 			
 		}
+	}
+	
+	private void setClip(int idx) throws Exception {
+		AudioInputStream ais = AudioSystem.getAudioInputStream(sound.getSoundURL().get(idx));
+		clip = AudioSystem.getClip();
+		clip.open(ais);
 	}
 
 	/** play select music */
@@ -99,12 +105,13 @@ public class SoundController {
 
 	/** play music default setting */
 	private void defaultPlaySet() {
-		Image.getInstance().setImage(panel);
-		MusicList.getInstance().setPosition(count - 1);
+		if(!isPause)
+			ImageDAO.getInstance().setImage(panel);
+		musicList.setPosition(count - 1);
 		VolumeHandler.getInstance().volumeSetting();
 		if(!isPause)
 			isNew = true;
-		SoundInfo.getInstance().setMusicInfo(panel);
+		soundInfo.setMusicInfo(panel);
 		isStop = false;
 		isPause = false;
 		isPlay = true;
@@ -121,7 +128,7 @@ public class SoundController {
 		isPause = false;
 		isStop = true;
 		panel.resetCurTime();
-		SoundInfo.getInstance().setMusicLength(panel, 0);
+		soundInfo.setMusicLength(panel, 0);
 	}
 	
 	/** pause music */
@@ -156,7 +163,7 @@ public class SoundController {
 		count = 0;
 		Collections.shuffle(sound.getSoundURL());
 		sound.setSoundList();
-		MusicList.getInstance().positionReset();
+		musicList.positionReset();
 		play();
 	}
 	
