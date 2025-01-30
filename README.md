@@ -4,12 +4,12 @@
 
 ## 📌 화면 미리보기
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8d6afa7b-68cb-4176-b7c0-603075760311">
-  <img src="https://github.com/user-attachments/assets/8e2dbe81-adc9-4bc5-a7ef-bd3c0bc001f1">
+  <img src="https://github.com/user-attachments/assets/ca2ee444-ca53-4fca-b544-3890b460d5ab">
+  <img src="https://github.com/user-attachments/assets/966cc3b2-fcf4-40ea-8037-2cd4f7a9bd28">
 </p>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/02e258a1-4939-422e-8f75-4cbadea1d7a0">
-  <img src="https://github.com/user-attachments/assets/e10ae6ee-0639-4cc1-8fef-2fbe8b30add4">
+  <img src="https://github.com/user-attachments/assets/223282d5-4eda-4c20-8657-adadac8a9f7b">
+  <img src="https://github.com/user-attachments/assets/a9754faf-c005-4d75-9c90-e80339458bde">
 </p>
 
 ## 🎵 RiQ_Player
