@@ -15,6 +15,7 @@ public class SoundInfo {
 	private JLabel artist;
 	private JLabel time;
 	private int playTime;
+	private String titleName;
 	
 	public int getPlayTime() {
 		return playTime;
@@ -41,6 +42,17 @@ public class SoundInfo {
 		}
 		setInfo(panel, fileName);
 		setPlayTime();
+	}
+	
+	public int getTitleLength() {
+		return title.getText().getBytes().length;
+	}
+	
+	public void setTitleShow() {
+		title.setText(title.getText().substring(1));
+		if(getTitleLength() < 48)
+			title.setText(titleName);
+			
 	}
 	
 	private void setPlayTime() {
@@ -77,8 +89,10 @@ public class SoundInfo {
 			title.setForeground(Color.WHITE);
 			setLabelStyle(title);
 			panel.add(title);
-		} else
-			title.setText(data);
+		} else {
+			titleName = data;
+			title.setText(titleName);
+		}
 	}
 
 	/** setting music text */
@@ -101,7 +115,7 @@ public class SoundInfo {
 			time.setFont(new Font("맑은 고딕",Font.PLAIN, 13));
 			time.setForeground(Color.WHITE);
 			setLabelStyle(time);
-			time.setPreferredSize(new Dimension(500, 12));
+			time.setPreferredSize(new Dimension(350, 12));
 			panel.add(time);
 		} else
 			time.setText(text);
@@ -109,7 +123,7 @@ public class SoundInfo {
 
 	/** setting JLabel to print text(Title, Artist) */
 	private void setLabelStyle(JLabel label) {
-		label.setPreferredSize(new Dimension(500, 30));
+		label.setPreferredSize(new Dimension(350, 30));
 		label.setHorizontalAlignment(JLabel.CENTER);
 	}
 

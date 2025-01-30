@@ -94,6 +94,9 @@ public class Panel extends JPanel implements Runnable {
 					soundController.next();
 					curTime = 0;
 				}
+				if(soundInfo.getTitleLength() > 47) {
+					soundInfo.setTitleShow();
+				}
 			}
 		}
 		Sound.getInstance().savePlayList("playList.txt",Sound.getInstance().getPlayList());
