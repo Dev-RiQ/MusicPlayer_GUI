@@ -10,6 +10,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JSlider;
 
+import _main.CustomSliderUI;
 import _main.Frame;
 import _main.Panel;
 import music.SoundController;
@@ -29,11 +30,13 @@ public class MusicLengthLine implements MouseListener, MouseMotionListener, KeyL
 	/** initial time line settings */
 	public void addLine(Panel panel) {
 		slider = new JSlider(JSlider.HORIZONTAL,0,100,0);
-		slider.setPreferredSize(new Dimension(340,13));
+		slider.setPreferredSize(new Dimension(340,20));
 		slider.setBackground(Color.DARK_GRAY);
 		slider.addMouseListener(this);
 		slider.addMouseMotionListener(this);
 		slider.addKeyListener(this);
+		slider.setFocusable(false);
+		slider.setUI(new CustomSliderUI(slider,340));
 		panel.add(slider);
 	}
 	
@@ -43,6 +46,7 @@ public class MusicLengthLine implements MouseListener, MouseMotionListener, KeyL
 	
 	public void setValue(int time) {
 		slider.setValue(time);
+		slider.repaint();
 	}
 	
 	public double getValue() {

@@ -13,6 +13,7 @@ import javax.sound.sampled.FloatControl;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
+import _main.CustomSliderUI;
 import _main.Frame;
 import _main.Panel;
 
@@ -42,6 +43,8 @@ public class VolumeHandler implements MouseListener, MouseMotionListener, KeyLis
 		slider.addMouseListener(this);
 		slider.addMouseMotionListener(this);
 		slider.addKeyListener(this);
+		slider.setFocusable(false);
+		slider.setUI(new CustomSliderUI(slider,250));
 		label1 = new JLabel("Vol-");
 		label2 = new JLabel("Vol+");
 		setLabelStyle(label1);
