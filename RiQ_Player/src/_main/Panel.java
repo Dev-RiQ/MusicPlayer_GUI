@@ -85,7 +85,7 @@ public class Panel extends JPanel implements Runnable {
 				sec += (currentTime - lastTime) / timeInteval;
 			}
 			lastTime = currentTime;
-			MusicLengthLine.getInstance().playTimeLine((int)(curTime / (SoundInfo.getInstance().getPlayTime() * 1.0 / 47)));
+			MusicLengthLine.getInstance().playTimeLine((int)curTime);
 			if(sec >= 1) {
 				sec = 0;
 				if(soundController.isPlay())

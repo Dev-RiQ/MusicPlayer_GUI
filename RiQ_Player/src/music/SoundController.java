@@ -8,6 +8,7 @@ import javax.sound.sampled.Clip;
 
 import _main.Panel;
 import button.Button;
+import lengthLine.MusicLengthLine;
 import list.MusicList;
 
 public class SoundController {
@@ -27,6 +28,10 @@ public class SoundController {
 
 	public boolean isPause() {
 		return isPause;
+	}
+
+	public boolean isRun() {
+		return isRun;
 	}
 
 	public boolean isNew() {
@@ -176,8 +181,9 @@ public class SoundController {
 	/** time position adjust in parameter time */
 	public void timeSet(int time) {
 		if(!isRun) return;
-		panel.setCurTime(time);
 		soundInfo.setMusicInfo(panel);
+		panel.setCurTime(time);
+		MusicLengthLine.getInstance().setValue(time);
 		clip.setMicrosecondPosition((int) panel.getCurTime() * 1000000);
 		if(isPlay)
 			clip.start();

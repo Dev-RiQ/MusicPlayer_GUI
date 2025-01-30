@@ -70,8 +70,8 @@ public class Button extends JButton {
 		suffle.setFont(new Font("맑은 고딕",Font.BOLD,20));
 		AffineTransform rotate = AffineTransform.getRotateInstance((-0.5)*Math.PI);
 		list.setFont(list.getFont().deriveFont(rotate));
-		suffle.setPreferredSize(new Dimension(110, 45));
-		list.setPreferredSize(new Dimension(110, 23));
+		suffle.setPreferredSize(new Dimension(150, 45));
+		list.setPreferredSize(new Dimension(150, 23));
 		list.setVerticalAlignment(JButton.BOTTOM);
 	}
 	

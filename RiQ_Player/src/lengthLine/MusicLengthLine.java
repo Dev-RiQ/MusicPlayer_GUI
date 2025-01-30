@@ -2,19 +2,21 @@ package lengthLine;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JLabel;
+import javax.swing.JSlider;
 
+import _main.Frame;
 import _main.Panel;
 import music.SoundController;
-import music.SoundInfo;
 
-public class MusicLengthLine implements MouseListener, MouseMotionListener{
+public class MusicLengthLine implements MouseListener, MouseMotionListener, KeyListener{
 
-	private JLabel line;
+	private JSlider slider;
 
 	private MusicLengthLine() {
 	}
@@ -26,37 +28,50 @@ public class MusicLengthLine implements MouseListener, MouseMotionListener{
 	
 	/** initial time line settings */
 	public void addLine(Panel panel) {
-		line = new JLabel("●==============================================");
-		panel.add(line);
-		line.addMouseListener(this);
-		line.addMouseMotionListener(this);
-		line.setPreferredSize(new Dimension(360,13));
-		line.setHorizontalAlignment(JLabel.CENTER);
-		line.setForeground(Color.WHITE);
+		slider = new JSlider(JSlider.HORIZONTAL,0,100,0);
+		slider.setPreferredSize(new Dimension(340,13));
+		slider.setBackground(Color.DARK_GRAY);
+		slider.addMouseListener(this);
+		slider.addMouseMotionListener(this);
+		slider.addKeyListener(this);
+		panel.add(slider);
 	}
 	
-	/** draw time line per (total play time / 47) */
-	public void playTimeLine(int idx) {
-		StringBuilder sb = new StringBuilder();
-		for(int i = 0 ; i < 47 ; i++) {
-			if(i < idx)
-				sb.append("≡");
-			else if ( i == idx)
-				sb.append("●");
-			else
-				sb.append("=");
-		}
-		line.setText(sb.toString());
+	public void setMaximum(int time) {
+		slider.setMaximum(time);
 	}
 	
-	// X : 15 ~ 345
+	public void setValue(int time) {
+		slider.setValue(time);
+	}
+	
+	public double getValue() {
+		return (double) slider.getValue();
+	}
+	
+	public void playTimeLine(int curTime) {
+		slider.setValue(curTime);
+	}
+	
+	public void moveTimeLine(int curTime) {
+		slider.setValue(curTime);
+	}
+	
+	// X : 8 ~ 330
 	/** time control by move time line */
 	private void setTime(MouseEvent e) {
-		int x = e.getX();
-		if(e.getX() < 15) x = 15;
-		if(e.getX() > 345) x = 345;
-		int timeMove = (int) ((SoundInfo.getInstance().getPlayTime())*1.0 * ((x - 15)*1.0 / 330));
-		SoundController.getInstance().timeSet(timeMove);
+		if(!SoundController.getInstance().isRun()) {
+			slider.setValue(0);
+			return;
+		}
+		double value = e.getX() * 1.0;
+		if(value < 8) value = 8;
+		if(value > 330) value = 330;
+		value -= 8;
+		value /= 322;
+		value *= slider.getMaximum();
+		SoundController.getInstance().timeSet(slider.getValue());
+		Panel.getInstance().setCurTime(value);
 	}
 	
 	@Override
@@ -68,6 +83,7 @@ public class MusicLengthLine implements MouseListener, MouseMotionListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		setTime(e);
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -81,5 +97,21 @@ public class MusicLengthLine implements MouseListener, MouseMotionListener{
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		Frame.getInstance().keyPressed(e);
+		e.consume();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		Frame.getInstance().keyReleased(e);
+		e.consume();
 	}
 }

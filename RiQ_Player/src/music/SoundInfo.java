@@ -8,6 +8,7 @@ import java.net.URLDecoder;
 import javax.swing.JLabel;
 
 import _main.Panel;
+import lengthLine.MusicLengthLine;
 
 public class SoundInfo {
 
@@ -117,8 +118,10 @@ public class SoundInfo {
 			setLabelStyle(time);
 			time.setPreferredSize(new Dimension(350, 12));
 			panel.add(time);
-		} else
+		} else {
 			time.setText(text);
+			MusicLengthLine.getInstance().setMaximum(playTime);
+		}
 	}
 
 	/** setting JLabel to print text(Title, Artist) */

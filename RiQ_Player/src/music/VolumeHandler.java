@@ -2,18 +2,25 @@ package music;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.sound.sampled.FloatControl;
 import javax.swing.JLabel;
+import javax.swing.JSlider;
 
+import _main.Frame;
 import _main.Panel;
 
-public class VolumeHandler implements MouseListener, MouseMotionListener{
+public class VolumeHandler implements MouseListener, MouseMotionListener, KeyListener{
 
-	private JLabel label;
+	private JSlider slider;
+	private JLabel label1;
+	private JLabel label2;
 	private FloatControl gain;
 	private FloatControl setting;
 	
@@ -29,30 +36,31 @@ public class VolumeHandler implements MouseListener, MouseMotionListener{
 	
 	/** create volume controller */
 	public void addVolumeCont(Panel panel) {
-		label = new JLabel("Vol-   ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡●=======   Vol+");
-		label.setForeground(Color.WHITE);
-		label.setPreferredSize(new Dimension(340,25));
-		label.setVerticalAlignment(JLabel.TOP);
-		label.setHorizontalAlignment(JLabel.CENTER);
-		label.addMouseListener(this);
-		label.addMouseMotionListener(this);
-		panel.add(label);
+		slider = new JSlider(JSlider.HORIZONTAL,0,25,18);
+		slider.setPreferredSize(new Dimension(250,13));
+		slider.setBackground(Color.DARK_GRAY);
+		slider.addMouseListener(this);
+		slider.addMouseMotionListener(this);
+		slider.addKeyListener(this);
+		label1 = new JLabel("Vol-");
+		label2 = new JLabel("Vol+");
+		setLabelStyle(label1);
+		label1.setHorizontalAlignment(JLabel.RIGHT);
+		setLabelStyle(label2);
+		label2.setHorizontalAlignment(JLabel.LEFT);
+		panel.add(label1);
+		panel.add(slider);
+		panel.add(label2);
 	}
 	
-	/** draw volume line per (total play time / 25) */
-	public void playTimeLine(int idx) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Vol-   ");
-		for(int i = 0 ; i < 25 ; i++) {
-			if(i < idx)
-				sb.append("≡");
-			else if ( i == idx)
-				sb.append("●");
-			else
-				sb.append("=");
-		}
-		sb.append("   Vol+");
-		label.setText(sb.toString());
+	private void setLabelStyle(JLabel label) {
+		label.setPreferredSize(new Dimension(45,13));
+		label.setFont(new Font("맑은 고딕",Font.BOLD, 15));
+		label.setForeground(Color.WHITE);
+	}
+	
+	public void playTimeLine(int value) {
+		slider.setValue(value);
 	}
 
 	/** set volume gain */
@@ -72,25 +80,26 @@ public class VolumeHandler implements MouseListener, MouseMotionListener{
 		if(f == -80) f = -50;
 		f += num * 2;
 		if(f >= 0 || f <= -50) return;
-		int idx = (int) ((49 + f) / 2);
 		setGain(f);
-		playTimeLine(idx);
+		playTimeLine(slider.getValue() + num);
 	}
 	
-	// X : 80 ~ 260
+	// X : 6 ~ 241
 	// gain : 0 ~ -50
 	/** volume control by move volume bar */
 	private void setVolume(MouseEvent e) {
-		int x = e.getX();
-		if(e.getX() < 80) x = 80;
-		if(e.getX() > 260) x = 260;
-		int idx = (int) ((x-80)*1.0 / 180 * 24);
-		float volumeMove = (float) (-50.0 + (x-80)*1.0 / 179 * 50);
+		double x = e.getX() * 1.0;
+		if(x < 6) x = 6;
+		if(x > 241) x = 241;
+		x -= 6;
+		x /= 235;
+		x *= slider.getMaximum();
+		float volumeMove = (float) (-50.0 + x*2.0);
 		if(volumeMove < -48)
 			setGain((float) -80.0);
 		else
 			setGain(volumeMove);
-		playTimeLine(idx);
+		playTimeLine((int) x);
 	}
 
 	@Override
@@ -102,6 +111,7 @@ public class VolumeHandler implements MouseListener, MouseMotionListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		setVolume(e);
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -115,5 +125,21 @@ public class VolumeHandler implements MouseListener, MouseMotionListener{
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		Frame.getInstance().keyPressed(e);
+		e.consume();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		Frame.getInstance().keyReleased(e);
+		e.consume();
 	}
 }
