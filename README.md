@@ -23,14 +23,14 @@
 - jsoup-1.18.3.jar : https://jsoup.org/download <br>
 - aspose-imageing-24.12-jdk16.jar : https://releases.aspose.com/imaging/java/24-12/
 
-## ❓ Main Features   
+## 🎛️ Main Features   
 - .wav 파일 재생, 일시정지
 - 플레이 리스트 저장
 - 재생 목록에 파일 드롭을 통한 복사 및 추가
 - 랜덤 셔플 및 직접 배치
 - 음악 시간 설정 및 볼륨 컨트롤
 
-## 🛠 조작 방법  
+## 🎮 조작 방법  
 <details><summary>1. 기본 창 조작 (클릭하여 내용보기)
 </summary>
 - ◀◀ :  이전 곡 (PageUp)<br>
@@ -52,7 +52,7 @@
 - End : 선택된 음원 재생 목록에서 1칸 내리기
 </details>
 
-## ⚠️Warning 
+## ⚠️ Warning 
 - 음원 파일 이름이 (아티스트 - 제목.wav) 형식이 아니면 제대로 표시되지 않습니다.
 - 동일한 음원 파일 이름이 존재할 경우 추가되지 않습니다.
 - 재생 목록에서 곡을 삭제해도 실제 폴더 내 파일은 삭제되지 않습니다.
