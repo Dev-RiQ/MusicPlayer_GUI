@@ -3,6 +3,7 @@
     </div>
 
 ## 📌 화면 미리보기
+- [시연 영상 보러가기](https://youtube.com/shorts/9QMgtPa1c8c)
 <p align="center">
   <img src="https://github.com/user-attachments/assets/ca2ee444-ca53-4fca-b544-3890b460d5ab">
   <img src="https://github.com/user-attachments/assets/966cc3b2-fcf4-40ea-8037-2cd4f7a9bd28">
