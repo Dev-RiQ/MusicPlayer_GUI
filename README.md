@@ -21,8 +21,8 @@
     
 ## 📕 Use Liberaries
 - JavaSE-11
-- jsoup-1.18.3.jar : https://jsoup.org/download <br>
-- aspose-imageing-24.12-jdk16.jar : https://releases.aspose.com/imaging/java/24-12/
+- [jsoup-1.18.3.jar](https://jsoup.org/download) <br>
+- [aspose-imageing-24.12-jdk16.jar](https://releases.aspose.com/imaging/java/24-12/)
 
 ## 🎛️ Main Features   
 - .wav 파일 재생, 일시정지
