@@ -72,6 +72,10 @@ public class VolumeHandler implements MouseListener, MouseMotionListener, KeyLis
 		this.gain.setValue(dB);
 		setting = gain;
 	}
+	
+	public void repaint() {
+		slider.repaint();
+	}
 
 	/** maintain setting volume */
 	public void volumeSetting() {

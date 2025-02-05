@@ -25,7 +25,7 @@ public class CustomSliderUI extends BasicSliderUI {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         super.paint(g, c);
     }
-
+    
     @Override
     protected Dimension getThumbSize() {
         return new Dimension(11, 11);

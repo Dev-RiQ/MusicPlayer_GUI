@@ -10,6 +10,7 @@ import lengthLine.MusicLengthLine;
 import music.Sound;
 import music.SoundController;
 import music.SoundInfo;
+import music.VolumeHandler;
 
 @SuppressWarnings("serial")
 public class Panel extends JPanel implements Runnable {
@@ -98,6 +99,8 @@ public class Panel extends JPanel implements Runnable {
 					soundInfo.setTitleShow();
 				}
 			}
+			MusicLengthLine.getInstance().repaint();
+			VolumeHandler.getInstance().repaint();
 		}
 		Sound.getInstance().savePlayList("playList.txt",Sound.getInstance().getPlayList());
 	}

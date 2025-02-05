@@ -46,9 +46,10 @@ public class MusicLengthLine implements MouseListener, MouseMotionListener, KeyL
 	
 	public void setValue(int time) {
 		slider.setValue(time);
+	}
+	public void repaint() {
 		slider.repaint();
 	}
-	
 	public double getValue() {
 		return (double) slider.getValue();
 	}
